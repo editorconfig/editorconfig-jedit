@@ -14,8 +14,9 @@ and INSTALL files to install it.
 
         svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
 
-4.  Edit the `build.properties` file and modify `jedit.install.dir` to the
-    jEdit installation directory in your system.
+4.  Copy `build.properties.in` to `build.properties`. Edit the
+    `build.properties` file and modify `jedit.install.dir` to the jEdit
+    installation directory in your system.
 
 5.  Switch to EditorConfig jEdit Plugin project root directory and run `ant`.
 
