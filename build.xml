@@ -1,0 +1,9 @@
+<project name="EditorConfigPlugin" default="build" basedir=".">
+  <description>
+    This is an ant build.xml file for building the EditorConfig plugin for
+    jEdit.
+  </description>
+  <property file="build.properties" />
+  <property name="build.support" value="../build-support" />
+  <import file="${build.support}/plugin-build.xml" />
+</project>
