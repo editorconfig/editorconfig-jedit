@@ -39,6 +39,19 @@ import org.gjt.sp.util.Log;
 
 public class EditorConfigPlugin extends EditPlugin implements EBComponent
 {
+    static private EditorConfigPlugin plugin;
+
+    // get the plugin instance
+    static public EditorConfigPlugin getPlugin()
+    {
+        return plugin;
+    }
+
+    public EditorConfigPlugin()
+    {
+        plugin = this;
+    }
+
     @Override
     public void start()
     {
@@ -51,7 +64,7 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         EditBus.removeFromBus(this);
     }
 
-    static public void loadEditorConfig(Buffer buf)
+    public void loadEditorConfig(Buffer buf)
     {
         Process proc;
         try
