@@ -27,8 +27,23 @@ POSSIBILITY OF SUCH DAMAGE.
 <ACTIONS>
   <ACTION NAME="editorconfig-plugin.reload-editorconfig">
     <CODE>
-      org.editorconfig.jedit.EditorConfigPlugin.getPlugin().loadEditorConfig(buffer);
-      javax.swing.JOptionPane.showMessageDialog(null, "EditorConfig reloaded.");
+      try
+      {
+        org.editorconfig.jedit.EditorConfigPlugin.getPlugin().loadEditorConfig(buffer);
+      }
+      catch(java.io.IOException e)
+      {
+        javax.swing.JOptionPane.showMessageDialog(null,
+            "Failed to reload EditorConfig: \n" + e.toString());
+        return;
+      }
+      catch(java.io.NumberFormatException e)
+      {
+        javax.swing.JOptionPane.showMessageDialog(null,
+            "Failed to reload EditorConfig: \n" + e.toString());
+        return;
+      }
+      javax.swing.JOptionPane.showMessageDialog(null, "EditorConfig successfully reloaded.");
     </CODE>
   </ACTION>
 

@@ -78,18 +78,11 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
     }
 
     public void loadEditorConfig(Buffer buf)
+        throws IOException, NumberFormatException
     {
         Process proc;
-        try
-        {
-            proc = new ProcessBuilder(editorConfigExecutablePath,
-                    buf.getPath()).start();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return;
-        }
+        proc = new ProcessBuilder(editorConfigExecutablePath,
+                buf.getPath()).start();
 
         InputStreamReader isr = new InputStreamReader(
                 proc.getInputStream());
@@ -98,16 +91,8 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         String line;
         while (true)
         {
-            try
-            {
-                if ((line = br.readLine()) == null)
-                    break;
-            }
-            catch(IOException e)
-            {
-                e.printStackTrace();
+            if ((line = br.readLine()) == null)
                 break;
-            }
 
             // Get the position of '='
             int eq_pos = line.indexOf('=');
@@ -131,15 +116,7 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
             {
                 int tab_width = 0;
 
-                try
-                {
-                    tab_width = Integer.parseInt(value);
-                }
-                catch(NumberFormatException e)
-                {
-                    e.printStackTrace();
-                    return;
-                }
+                tab_width = Integer.parseInt(value);
 
                 if (tab_width > 0)
                     buf.setIntegerProperty("tabSize", tab_width);
@@ -148,15 +125,7 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
             {
                 int indent_size = 0;
 
-                try
-                {
-                    indent_size = Integer.parseInt(value);
-                }
-                catch(NumberFormatException e)
-                {
-                    e.printStackTrace();
-                    return;
-                }
+                indent_size = Integer.parseInt(value);
 
                 if (indent_size > 0)
                     buf.setIntegerProperty("indentSize", indent_size);
@@ -181,7 +150,22 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
 
 		    if (bu_msg.getWhat() == BufferUpdate.LOADED)
             {
-                loadEditorConfig(buf);
+                try
+                {
+                    loadEditorConfig(buf);
+                }
+                catch(IOException e)
+                {
+                    Log.log(Log.ERROR, this,
+                            "Failed to load EditorConfig: " + e.toString());
+                    e.printStackTrace();
+                }
+                catch(NumberFormatException e)
+                {
+                    Log.log(Log.ERROR, this,
+                            "Failed to load EditorConfig: " + e.toString());
+                    e.printStackTrace();
+                }
             }
 		}
     }
