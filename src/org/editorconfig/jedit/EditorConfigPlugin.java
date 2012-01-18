@@ -102,14 +102,34 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
             }
             else if (key.equals("tab_width")) // the width of tab
             {
-                int tab_width = Integer.parseInt(value);
+                int tab_width = 0;
+
+                try
+                {
+                    tab_width = Integer.parseInt(value);
+                }
+                catch(NumberFormatException e)
+                {
+                    e.printStackTrace();
+                    return;
+                }
 
                 if (tab_width > 0)
                     buf.setIntegerProperty("tabSize", tab_width);
             }
             else if (key.equals("indent_size")) // the size of indent
             {
-                int indent_size = Integer.parseInt(value);
+                int indent_size = 0;
+
+                try
+                {
+                    indent_size = Integer.parseInt(value);
+                }
+                catch(NumberFormatException e)
+                {
+                    e.printStackTrace();
+                    return;
+                }
 
                 if (indent_size > 0)
                     buf.setIntegerProperty("indentSize", indent_size);
