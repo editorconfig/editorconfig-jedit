@@ -1,0 +1,8 @@
+<ACTIONS>
+  <ACTION NAME="editorconfig-plugin.reload-editorconfig">
+    <CODE>
+      org.editorconfig.jedit.EditorConfigPlugin.loadEditorConfig(buffer);
+      javax.swing.JOptionPane.showMessageDialog(null, "EditorConfig reloaded.");
+    </CODE>
+  </ACTION>
+</ACTIONS>

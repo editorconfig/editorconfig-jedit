@@ -51,7 +51,7 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         EditBus.removeFromBus(this);
     }
 
-    static private void loadEditorConfig(Buffer buf)
+    static public void loadEditorConfig(Buffer buf)
     {
         Process proc;
         try

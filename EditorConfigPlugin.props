@@ -1,6 +1,10 @@
 # general plugin information
 plugin.org.editorconfig.jedit.EditorConfigPlugin.activiate=startup
-plugin.org.editorconfig.jedit.EditorConfigPlugin.name=EditorConfigPlugin
+plugin.org.editorconfig.jedit.EditorConfigPlugin.name=EditorConfig
 plugin.org.editorconfig.jedit.EditorConfigPlugin.author=EditorConfig Team
 plugin.org.editorconfig.jedit.EditorConfigPlugin.version=0.1
 plugin.org.editorconfig.jedit.EditorConfigPlugin.description=EditorConfig plugin for jEdit
+
+# menu
+plugin.org.editorconfig.jedit.EditorConfigPlugin.menu=editorconfig-plugin.reload-editorconfig
+editorconfig-plugin.reload-editorconfig.label=Reload EditorConfig
