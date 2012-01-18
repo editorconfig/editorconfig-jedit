@@ -27,10 +27,11 @@ package org.editorconfig.jedit;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
-import java.awt.GridLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -59,17 +60,32 @@ public class SettingsDialog extends JDialog implements ActionListener
 
         setSize(160, 160);
 
-        JPanel fileChoosingPanel = new JPanel(new GridLayout(1, 2));
+        JPanel fileChoosingPanel = new JPanel();
+        fileChoosingPanel.setLayout(
+                new BoxLayout(fileChoosingPanel, BoxLayout.Y_AXIS));
 
-        editorConfigPathChoosingFile_Button = new JButton(
-                "Path to EditorConfig core executable:");
-        editorConfigPathChoosingFile_Button.addActionListener(this);
-        fileChoosingPanel.add(editorConfigPathChoosingFile_Button);
+        fileChoosingPanel.add(
+                new JLabel("Path to EditorConfig core executable:"));
+
+        JPanel fileChoosingBottomPanel = new JPanel();
+        fileChoosingBottomPanel.setLayout(
+                new BoxLayout(fileChoosingBottomPanel, BoxLayout.X_AXIS));
 
         editorConfigPath_TextField = new JTextField();
         editorConfigPath_TextField.setText(
                 EditorConfigPlugin.getPlugin().getEditorConfigExecutablePath());
-        fileChoosingPanel.add(editorConfigPath_TextField);
+        fileChoosingBottomPanel.add(editorConfigPath_TextField);
+
+        editorConfigPathChoosingFile_Button = new JButton("...");
+        editorConfigPathChoosingFile_Button.setMaximumSize(
+                new Dimension(
+                    editorConfigPathChoosingFile_Button.getPreferredSize().width
+                    ,
+                    Integer.MAX_VALUE));
+        editorConfigPathChoosingFile_Button.addActionListener(this);
+        fileChoosingBottomPanel.add(editorConfigPathChoosingFile_Button);
+
+        fileChoosingPanel.add(fileChoosingBottomPanel);
 
         getContentPane().add(fileChoosingPanel);
 
