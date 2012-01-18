@@ -41,6 +41,9 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
 {
     static private EditorConfigPlugin plugin;
 
+    // path to EditorConfig Executable
+    private String editorConfigExecutablePath = "editorconfig";
+
     // get the plugin instance
     static public EditorConfigPlugin getPlugin()
     {
@@ -50,6 +53,16 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
     public EditorConfigPlugin()
     {
         plugin = this;
+    }
+
+    public void setEditorConfigExecutablePath(String exec)
+    {
+        editorConfigExecutablePath = exec;
+    }
+
+    public String getEditorConfigExecutablePath()
+    {
+        return editorConfigExecutablePath;
     }
 
     @Override
@@ -69,7 +82,8 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         Process proc;
         try
         {
-            proc = new ProcessBuilder("editorconfig", buf.getPath()).start();
+            proc = new ProcessBuilder(editorConfigExecutablePath,
+                    buf.getPath()).start();
         }
         catch (IOException e)
         {
