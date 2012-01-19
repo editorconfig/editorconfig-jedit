@@ -49,7 +49,7 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
     private String editorConfigExecutablePath = "editorconfig";
 
     // get the plugin instance
-    static public EditorConfigPlugin getPlugin()
+    static EditorConfigPlugin getPlugin()
     {
         return plugin;
     }
@@ -59,12 +59,12 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         plugin = this;
     }
 
-    public void setEditorConfigExecutablePath(String exec)
+    void setEditorConfigExecutablePath(String exec)
     {
         editorConfigExecutablePath = exec;
     }
 
-    public String getEditorConfigExecutablePath()
+    String getEditorConfigExecutablePath()
     {
         return editorConfigExecutablePath;
     }
