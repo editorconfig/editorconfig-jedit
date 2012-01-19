@@ -26,8 +26,12 @@
 package org.editorconfig.jedit;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Properties;
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.EBComponent;
 import org.gjt.sp.jedit.EBMessage;
@@ -65,9 +69,58 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         return editorConfigExecutablePath;
     }
 
+    void saveSettings(String key, String value)
+        throws SecurityException, IOException
+    {
+        File pluginHome = getPluginHome();
+
+        // jEdit settings dir does not exist
+        if (pluginHome == null)
+            return;
+
+        // if plugin home does not exist, create it
+        if (!pluginHome.exists())
+            pluginHome.mkdir();
+
+        // save to settings.properties
+        FileOutputStream fos = new FileOutputStream(
+                pluginHome.getPath() + File.separator + "settings.properties");
+        Properties properties = new Properties();
+        properties.setProperty(key, value);
+        properties.store(fos, "EditorConfig jEdit plugin settings");
+
+        return;
+    }
+
+    void loadSettings()
+    {
+        File pluginHome = getPluginHome();
+
+        Properties properties = new Properties();
+
+        try
+        {
+            properties.load(new FileInputStream(
+                        pluginHome.getPath() + File.separator +
+                        "settings.properties"));
+        }
+        catch (Exception e)
+        {
+            // ignore every exception
+            e.printStackTrace();
+            return;
+        }
+
+        // set values
+        editorConfigExecutablePath = properties.getProperty(
+                "editorconfig_executable_path", "editorconfig");
+    }
+
     @Override
     public void start()
     {
+        loadSettings();
+
         EditBus.addToBus(this);
     }
 

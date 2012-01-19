@@ -36,6 +36,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
@@ -139,8 +140,20 @@ public class SettingsDialog extends JDialog implements ActionListener
         }
         else if (event.getSource() == ok_Button)
         {
-            EditorConfigPlugin.getPlugin().setEditorConfigExecutablePath(
-                    editorConfigPath_TextField.getText());
+            // Save settings and reload settings. Then close the settings dialog
+            EditorConfigPlugin plugin = EditorConfigPlugin.getPlugin();
+            try
+            {
+                plugin.saveSettings("editorconfig_executable_path",
+                        editorConfigPath_TextField.getText());
+            }
+            catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null,
+                        "Fail to save settings: " + e);
+            }
+
+            plugin.loadSettings();
 
             dispose();
         }
