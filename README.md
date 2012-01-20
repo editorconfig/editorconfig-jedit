@@ -27,6 +27,18 @@ and INSTALL files to install it.
 
 7.  If jEdit is running, restart jEdit.
 
+For example, on Debian, the commands are like this:
+
+```Shell
+$ apt-get install subversion ant git  # Do this with root privilege
+$ git clone git://github.com/editorconfig/editorconfig-jedit.git
+$ svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
+$ cd editorconfig-jedit
+$ cp build.properties.in build.properties # Copy build properties and modify jedit.install.dir as needed
+$ ant
+$ cp ./build/jar/EditorConfigPlugin.jar ~/.jedit/jars
+```
+
 [ant]: http://ant.apache.org
 [EditorConfig]: http://editorconfig.org
 [EditorConfig core]: https://github.com/editorconfig/editorconfig
