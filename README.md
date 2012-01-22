@@ -30,7 +30,7 @@ and INSTALL files to install it.
 For example, on Debian, the commands are like this:
 
 ```Shell
-$ apt-get install subversion ant git  # Do this with root privilege
+$ sudo apt-get install subversion ant git
 $ git clone git://github.com/editorconfig/editorconfig-jedit.git
 $ svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
 $ cd editorconfig-jedit
