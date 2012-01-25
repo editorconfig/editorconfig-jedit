@@ -39,7 +39,19 @@ $ ant
 $ cp ./build/jar/EditorConfigPlugin.jar ~/.jedit/jars
 ```
 
+## Supported properties
+
+The EditorConfig Emacs plugin supports the following EditorConfig [properties][]:
+
+* indent_style
+* indent_size
+* tab_width
+* end_of_line
+* root (only used by EditorConfig core)
+
+
 [ant]: http://ant.apache.org
 [EditorConfig]: http://editorconfig.org
 [EditorConfig core]: https://github.com/editorconfig/editorconfig
 [jEdit]: http://www.jedit.org
+[properties]: http://editorconfig.org/#supported-properties
