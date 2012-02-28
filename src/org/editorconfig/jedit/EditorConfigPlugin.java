@@ -130,6 +130,18 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         EditBus.removeFromBus(this);
     }
 
+    // an inner class that stores EditorConfig configuration info
+    private class EditorConfigConf
+    {
+        String      indentStyle = null;
+        int         indentSize = 0;
+        int         tabWidth = 0;
+        String      endOfLine = null;
+
+        // indentStyle will be set to this value if indent_size = tab
+        static final int    INDENT_SIZE_TAB = -1000;
+    }
+
     public void loadEditorConfig(Buffer buf)
         throws IOException, NumberFormatException
     {
@@ -140,6 +152,9 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         InputStreamReader isr = new InputStreamReader(
                 proc.getInputStream());
         BufferedReader br = new BufferedReader(isr);
+
+        // EditorConfig confs
+        EditorConfigConf ecConf = new EditorConfigConf();
 
         String line;
         while (true)
@@ -159,39 +174,61 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
             String value = line.substring(eq_pos + 1).trim();
 
             if (key.equals("indent_style")) // soft or hard tabs?
-            {
-                if (value.equals("tab"))
-                    buf.setBooleanProperty("noTabs", false);
-                else if (value.equals("space"))
-                    buf.setBooleanProperty("noTabs", true);
-            }
+                ecConf.indentStyle = value;
             else if (key.equals("tab_width")) // the width of tab
-            {
-                int tab_width = 0;
-
-                tab_width = Integer.parseInt(value);
-
-                if (tab_width > 0)
-                    buf.setIntegerProperty("tabSize", tab_width);
-            }
+                ecConf.tabWidth = Integer.parseInt(value);
             else if (key.equals("indent_size")) // the size of indent
             {
                 int indent_size = 0;
 
-                indent_size = Integer.parseInt(value);
+                if (value.equals("tab"))
+                    ecConf.indentSize = EditorConfigConf.INDENT_SIZE_TAB;
+                else
+                {
+                    indent_size = Integer.parseInt(value);
 
-                if (indent_size > 0)
-                    buf.setIntegerProperty("indentSize", indent_size);
+                    if (indent_size > 0)
+                        ecConf.indentSize = indent_size;
+                }
             }
             else if (key.equals("end_of_line")) // eof
-            {
-                if (value.equals("lf"))
-                    buf.setStringProperty(JEditBuffer.LINESEP, "\n");
-                else if (value.equals("crlf"))
-                    buf.setStringProperty(JEditBuffer.LINESEP, "\r\n");
-                else if (value.equals("cr"))
-                    buf.setStringProperty(JEditBuffer.LINESEP, "\r");
-            }
+                ecConf.endOfLine = value;
+        }
+
+        // set buffer after reading the stdin
+
+        if (ecConf.indentStyle != null) // indent_style
+        {
+            if (ecConf.indentStyle.equals("tab"))
+                buf.setBooleanProperty("noTabs", false);
+            else if (ecConf.indentStyle.equals("space"))
+                buf.setBooleanProperty("noTabs", true);
+        }
+
+        if (ecConf.indentSize > 0) // indent_size > 0 
+        {
+            buf.setIntegerProperty("indentSize", ecConf.indentSize);
+
+            // set tabSize here, so this could be overwritten if
+            // ecConf.tabWidth > 0
+            buf.setIntegerProperty("tabSize", ecConf.indentSize);
+        }
+
+        if (ecConf.tabWidth > 0) // tab_width
+            buf.setIntegerProperty("tabSize", ecConf.tabWidth);
+
+        // indent_size = tab 
+        if (ecConf.indentSize == EditorConfigConf.INDENT_SIZE_TAB)
+            buf.setIntegerProperty("indentSize", buf.getTabSize());
+
+        if (ecConf.endOfLine != null) // eof
+        {
+            if (ecConf.endOfLine.equals("lf"))
+                buf.setStringProperty(JEditBuffer.LINESEP, "\n");
+            else if (ecConf.endOfLine.equals("crlf"))
+                buf.setStringProperty(JEditBuffer.LINESEP, "\r\n");
+            else if (ecConf.endOfLine.equals("cr"))
+                buf.setStringProperty(JEditBuffer.LINESEP, "\r");
         }
     }
 	public void handleMessage(EBMessage msg)
