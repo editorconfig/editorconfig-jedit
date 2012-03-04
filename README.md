@@ -52,6 +52,6 @@ The EditorConfig jEdit plugin supports the following EditorConfig [properties][]
 
 [ant]: http://ant.apache.org
 [EditorConfig]: http://editorconfig.org
-[EditorConfig core]: https://github.com/editorconfig/editorconfig
+[EditorConfig core]: https://github.com/editorconfig/editorconfig-core
 [jEdit]: http://www.jedit.org
 [properties]: http://editorconfig.org/#supported-properties
