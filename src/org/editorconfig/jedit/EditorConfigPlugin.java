@@ -49,7 +49,7 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
     private String editorConfigExecutablePath = "editorconfig";
 
     // get the plugin instance
-    static EditorConfigPlugin getPlugin()
+    static public EditorConfigPlugin getPlugin()
     {
         return plugin;
     }
