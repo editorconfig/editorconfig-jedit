@@ -5,6 +5,9 @@ jdk:
   - openjdk6
   - oraclejdk7
 
+before_script:
+  - cp build.properties.in build.properties
+
 # Run the Build script
 script:
   - ant
