@@ -5,6 +5,9 @@ jdk:
   - openjdk6
   - oraclejdk7
 
+install:
+  - sudo apt-get install jedit
+
 before_script:
   - cp build.properties.in build.properties
 
