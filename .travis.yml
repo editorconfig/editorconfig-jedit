@@ -1,0 +1,16 @@
+language: java
+
+jdk:
+  - openjdk7
+  - openjdk6
+  - oraclejdk7
+
+# Run the Build script
+script:
+  - ant
+
+# Notify the mailing list
+notifications:
+ email:
+   on_success: change
+   on_failure: always
