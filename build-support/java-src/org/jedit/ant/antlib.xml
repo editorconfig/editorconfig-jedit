@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<antlib>
+  <typedef name="plugininfo" classname="org.jedit.ant.PluginInfoType"/>
+
+  <taskdef name="download-plugin-deps-rec"
+           classname="org.jedit.ant.DownloadPluginDepsRecTask"/>
+  <taskdef name="gen-plugin-deps-ivy-file" classname="org.jedit.ant.GenPluginDepsIvyFileTask"/>
+  <taskdef name="get-plugin-info" classname="org.jedit.ant.GetPluginInfoTask"/>
+  <taskdef name="get-plugin-jar-name" classname="org.jedit.ant.GetPluginJarNameTask"/>
+</antlib>

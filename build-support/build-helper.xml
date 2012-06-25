@@ -1,0 +1,369 @@
+<project name="jedit-build-helper" default="build"
+  xmlns:ivy="antlib:org.apache.ivy.ant" >
+  
+<!-- :noTabs=true:tabSize=2:folding=explicit:collapseFolds=1:
+
+This file is part of jedit, but it contains general purpose helper macros
+for use in any ant script.
+
+Copyright (C) 2012 Jarek Czekalski <jarekczek@poczta.onet.pl>
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+-->
+
+<!-- ==================== USAGE =======================
+This file should be imported to use its functionality.
+
+depends="get-lib-ivy"
+depends="get-lib-scripting"
+depends="cache-lib-scripting"
+<get-lib name=xxx />
+<cache-lib name=xxx />
+  to support a new library add it as a conf to ivy.xml file
+  and create a target get-lib-xxx
+<propertycopy name= from= /> - set property @{name} to ${${from}}
+<check-file-var var= /> - checks whether file exists
+<check-dir-var var= /> - checks whether dir exists
+<check-prop prop= /> - checks whether property is set
+
+Properties considered private are prefixed with jbh. to avoid conflicts
+with properties from calling projects
+-->
+
+<!-- Properties allowing customization -->
+<!-- <property name="ivy.install.version" value="2.2.0" />-->
+<!-- <property name="jbh.ivy.file" value="" /> -->
+
+<!-- {{{ Private part ================================= -->
+
+<!-- {{{ jbh.set-properties macro ===================== -->
+<macrodef name="jbh.set-properties">
+  <sequential>
+  <property name="jbh.file" value="${ant.file.jedit-build-helper}" />
+  <pathconvert property="jbh.dir">
+    <path><pathelement location="${jbh.file}" /></path>
+    <mapper type="regexp" from="(.*)[/\\]([^/\\]*)" to="\1" />
+  </pathconvert>
+  <property name="ivy.install.version" value="2.2.0" />
+  <property name="jbh.ivy.file" value="${jbh.dir}/ivy.xml" /> 
+  </sequential>
+</macrodef>
+<!-- }}} ============================================== -->
+
+<!-- {{{ jbh.create-lib-dir macro ===================== -->
+<macrodef name="jbh.create-lib-dir">
+  <sequential>
+  <fail unless="lib.dir">Property lib.dir must be defined.</fail>
+  <mkdir dir="${lib.dir}" />
+  <available property="lib.dir.ok" type="dir" file="${lib.dir}" />
+  <fail unless="lib.dir.ok">Directory ${lib.dir} does not exist.</fail>
+  <mkdir dir="${lib.dir}/ivy" />
+  <property name="ivy.jar.file" value="${lib.dir}/ivy/ivy.jar" />
+  </sequential>
+</macrodef>
+<!-- }}} ============================================== -->
+
+<!-- {{{ jbh.set-ivy-jar-file target ================== -->
+<!-- if not yet set, sets it to a file under lib.dir -->
+<target name="jbh.set-ivy-jar-file" unless="ivy.jar.file" >
+  <sequential>
+    <fail message="Either lib.dir or ivy.jar.file property must be set" >
+    <condition>
+      <or>
+        <not><isset property="lib.dir" /></not>
+        <not><isset property="ivy.jar.file" /></not>
+      </or>
+    </condition>
+  </fail>
+  <mkdir dir="${lib.dir}" />
+  <available property="lib.dir.ok" type="dir" file="${lib.dir}" />
+  <fail unless="lib.dir.ok">Directory ${lib.dir} does not exist.</fail>
+  <mkdir dir="${lib.dir}/ivy" />
+  <property name="ivy.jar.file" value="${lib.dir}/ivy/ivy.jar" />
+  </sequential>
+</target>
+<!-- }}} ============================================== -->
+
+<!-- }}} ============================================== -->
+
+<!-- {{{ General purpose macros ======================= -->
+
+<!-- {{{ propertycopy macro =========================== -->
+<!-- a workaround for indirect property expansion taken from
+     http://ant.apache.org/faq.html#propertyvalue-as-name-for-property -->
+<macrodef name="propertycopy">
+    <attribute name="name"/>
+    <attribute name="from"/>
+    <sequential>
+        <property name="@{name}" value="${@{from}}"/>
+    </sequential>
+</macrodef>
+<!-- }}} ============================================== -->
+
+<!-- {{{ dump-prop-ref macro ========================== -->
+<!-- Dumps the value of the data with the given reference -->
+<macrodef name="dump-prop-ref">
+  <attribute name="refid"/>
+  <sequential>
+  <local name="x" />
+  <property name="x" refid="@{refid}" />
+  <echo message="@{refid}: ${x}" />
+  </sequential>
+</macrodef>
+<!-- }}} ============================================== -->
+
+<!-- }}} ============================================== -->
+
+<!-- {{{ Macros for checking existance of files an directories -->
+
+<!-- {{{ Private part ================================= -->
+
+<!-- {{{ check-file-dir-var macro ===================== -->
+<macrodef name="check-file-dir-var">
+    <!-- private -->
+    <attribute name="type" />
+    <attribute name="var" />
+    <sequential>
+    <local name="file" />
+    <local name="desc" />
+    <propertycopy name="file" from="@{var}" />
+    <condition property="desc" value="file" else="directory">
+        <equals arg1="@{type}" arg2="file" />
+    </condition>
+    <!--<echo>Checking ${desc} ${file} from property @{var}</echo>-->
+    <fail message="Property not set: @{var}"
+          unless="@{var}" />
+    <fail message="The ${desc} ${file} pointed by property @{var} does not exist. ">
+        <condition>
+            <not><available file="${file}" type="@{type}" /></not>
+        </condition>
+    </fail>
+    </sequential>
+</macrodef>
+<!-- }}} ============================================== -->
+
+<!-- }}} ============================================== -->
+
+<!-- {{{ check-file-var macro ========================= -->
+<!-- Checks whether a property ${var} is defined and whether
+     a file exists -->
+<macrodef name="check-file-var">
+    <attribute name="var" />
+    <sequential>
+    <check-file-dir-var type="file" var="@{var}" />
+    </sequential>
+</macrodef>
+<!-- }}} ============================================== -->
+
+<!-- {{{ check-prop macro ============================= -->
+<!-- Checks whether a property ${prop} is set. -->
+<macrodef name="check-prop">
+    <attribute name="prop" />
+    <sequential>
+    <fail message="Property not set: @{prop}"
+          unless="@{prop}" />
+    </sequential>
+</macrodef>
+<!-- }}} ============================================== -->
+
+<!-- {{{ check-dir-var macro ========================== -->
+<!-- Checks whether a property ${var} is defined and whether
+     a directory exists -->
+<macrodef name="check-dir-var">
+    <attribute name="var" />
+    <sequential>
+    <check-file-dir-var type="dir" var="@{var}" />
+    </sequential>
+</macrodef>
+<!-- }}} ============================================== -->
+
+<!-- }}} ============================================== -->
+
+<!-- {{{ Ivy macros and targets ======================= -->
+
+<!-- {{{ Private part ================================= -->
+
+<!-- {{{ download-ivy target ========================== -->
+<!-- Private. Use get-ivy instead -->
+<target name="download-ivy" unless="jbh.ivy.no-download">
+  <echo>Downloading ivy.jar to ${ivy.jar.file}</echo>
+  <property name="ivy.install.version" value="2.2.0" />
+  <local name="ivy.dir" />
+  <dirname property="ivy.dir" file="${ivy.jar.file}" />
+  <mkdir dir="${ivy.dir}" />
+  <get src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
+   dest="${ivy.jar.file}" />
+</target>
+<!-- }}} ============================================== -->
+
+<!-- {{{ ivy.download-lib target ====================== -->
+<!-- Private. Use macrodef get-lib instead -->
+<target name="ivy.download-lib" unless="jbh.lib.present" >
+  <ivy:retrieve pattern="${lib.dir}/${name}/[artifact].[ext]"
+                file="${jbh.ivy.file}" conf="${name}" />
+</target>
+<!-- }}} ============================================== -->
+  
+<!-- {{{ set-def-ivy-jar-file target ================== -->
+<!-- sets ivy.jar.file to a default value -->
+<target name="set-def-ivy-jar-file" >
+  <property environment="env" />
+  <condition property="ivy.home" value="${env.IVY_HOME}">
+    <isset property="env.IVY_HOME" />
+  </condition>
+  <property name="ivy.home" value="${user.home}/.ivy2" />
+  <property name="ivy.jar.dir" value="${ivy.home}/lib" />
+  <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+</target>
+<!-- }}} ============================================== -->
+
+
+<!-- {{{ get-lib target =============================== -->
+<!-- Private. Use macrodef get-lib instead -->
+<!-- Separate target is necessary here, because we need to set a property
+     which must be cancelled for subsequent calls -->
+<target name="get-lib">
+  <available file="${lib.dir}/${name}" type="dir"
+             property="jbh.lib.present" />
+  <antcall target="ivy.download-lib">
+    <param name="name" value="${name}" />
+  </antcall>
+</target>
+<!-- }}} ============================================== -->
+
+<!-- }}} ============================================== -->
+
+<!-- {{{ get-ivy macro ================================ -->
+
+<!-- Downloads ivy if it is not already on disk in ${ivy.jar.file}.
+     ${ivy.jar.file} set to ${lib.dir}/ivy/ivy.jar
+     Defines ivy tasks.  -->
+<macrodef name="get-ivy" >
+  <sequential>
+  <fail message="Either lib.dir or ivy.jar.file property must be set" >
+    <condition>
+      <and>
+        <not><isset property="lib.dir" /></not>
+        <not><isset property="ivy.jar.file" /></not>
+      </and>
+    </condition>
+  </fail>
+  <jbh.set-properties />
+  <condition property="jbh.ivy.no-download" value="true">
+    <and>
+      <not><isset property="force-download" /></not>
+      <available file="${ivy.jar.file}" />
+    </and>
+  </condition>
+  <antcall target="jedit-build-helper.download-ivy" />
+  <path id="ivy.jar.path">
+    <pathelement path="${ivy.jar.file}"/>
+  </path>
+  <taskdef resource="org/apache/ivy/ant/antlib.xml"
+           uri="antlib:org.apache.ivy.ant" classpathref="ivy.jar.path"/>
+  <property name="get.lib.ivy.done" value="true" /> 
+  </sequential>
+</macrodef>
+
+<!-- }}} ============================================== -->
+
+<!-- {{{ get-lib macro ================================ -->
+
+<!-- Download the library @name. If the library is on disk, network is not
+     employed. You can force download with ${force-download} or by
+     removing the ${lib.dir}/@{name} directory.
+     Sets the path with id lib.@{name}.path.
+     
+     Example of usage:
+      <property name="lib.dir" value="${basedir}/lib" />
+      <get-lib name="scripting" />
+      <script language="beanshell" classpathref="lib.scripting.path" >   
+        print("hi");
+      </script>
+
+     -->
+<macrodef name="get-lib">
+  <attribute name="name" />
+  <sequential>
+    <jbh.set-properties />
+    <jbh.create-lib-dir />
+    <check-file-var var="jbh.ivy.file" />
+    <get-ivy />
+    <echo>Getting library @{name} into ${lib.dir}</echo>
+    <antcall target="jedit-build-helper.get-lib">
+      <param name="name" value="@{name}" />
+    </antcall>
+    <property name="get.lib.@{name}.done" value="true" />
+    <path id="lib.@{name}.path">
+      <fileset dir="${lib.dir}/@{name}" includes="*.jar" />
+    </path>
+  </sequential>
+</macrodef>
+
+<!-- }}} ============================================== -->
+
+<!-- {{{ cache-lib macro ============================== -->
+
+<!-- Gets @name library path into the path with id lib.@{name}.path.
+     The files are referenced directly from ivy cache.
+     
+     Example of usage:
+      <cache-lib name="scripting" />
+      <script language="beanshell" classpathref="lib.scripting.path" >   
+        print("hi");
+      </script>
+
+     -->
+<macrodef name="cache-lib">
+  <attribute name="name" />
+  <sequential>
+    <jbh.set-properties />
+    <check-file-var var="jbh.ivy.file" />
+    <get-ivy />
+    <echo>Getting path of library @{name} into id lib.@{name}.path</echo>
+    <ivy:cachepath file="${jbh.ivy.file}" conf="@{name}"
+                   pathid="lib.@{name}.path"
+                   log="downloadonly" />
+    <property name="cache.lib.@{name}.done" value="true" />
+  </sequential>
+</macrodef>
+
+<!-- }}} ============================================== -->
+
+<!-- {{{ specific get-lib and cache-lib targets ======= -->
+<target name="get-lib-ivy" depends="set-def-ivy-jar-file" 
+                           unless="get.lib.ivy.done">
+  <get-ivy />
+</target>
+
+<target name="get-lib-scripting" depends="get-lib-ivy"
+        unless="get.lib.scripting.done" >
+  <get-lib name="scripting" />
+</target>
+
+<target name="cache-lib-scripting" depends="get-lib-ivy"
+        unless="cache.lib.scripting.done" >
+  <cache-lib name="scripting" />
+</target>
+<!-- }}} ============================================== -->
+  
+<!-- }}} ============================================== -->
+
+<!-- explicit fold - copy and paste -->
+<!-- {{{ ============================================== -->
+<!-- }}} ============================================== -->
+
+</project>

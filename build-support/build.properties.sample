@@ -9,10 +9,10 @@
 # jEdit & plugins directory settings
 
 # jEdit install directory
-jedit.install.dir=/usr/share/jedit
+#jedit.install.dir=../../jEdit
 
 # location where your jars are installed
-install.dir=./build/jar
+#install.dir=${jedit.install.dir}/jars
 
 # Location where the plugins are. This property used when defining dependencies on other plugins.
 # Eg. In your plugin's classpath.
@@ -28,13 +28,13 @@ install.dir=./build/jar
 #jedit.user.home=${user.home}/.jedit
 
 # Top-level of the plugins source tree
-plugins.srcdir=.
+#plugins.srcdir=..
 
 
 # Generic plugin build options
 
 # Where the plugin source is located
-src.dir=./src
+#src.dir=.
 
 # The name of the JAR file
 #jar.file=${ant.project.name}.jar
@@ -163,6 +163,11 @@ src.dir=./src
 #junit.haltonfailure=off
 
 # Ant Contrib
+
+# Include ant runtime in classpath
+# Modern build files: "ignore"
+# Compatibility to old build files: "last"
+#build.sysclasspath=ignore
 
 # Where to find the ant-contrib jar.
 #ant-contrib.jar=ant-contrib-1.0b1.jar

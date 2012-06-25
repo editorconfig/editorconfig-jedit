@@ -1,0 +1,9 @@
+<ivy-module version="2.0">
+
+<info organisation="jedit-plugins" module="???"/>
+
+<dependencies>
+<!--<dependency org="jedit-plugins-zip" name="ErrorList" rev="1.9"/>-->
+</dependencies>
+
+</ivy-module>
