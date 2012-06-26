@@ -29,7 +29,6 @@ For example, on Debian, the commands are like this:
 ```Shell
 $ sudo apt-get install subversion ant git
 $ git clone git://github.com/editorconfig/editorconfig-jedit.git
-$ svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
 $ cd editorconfig-jedit
 $ cp build.properties.in build.properties # Copy build properties and modify jedit.install.dir as needed
 $ ant
