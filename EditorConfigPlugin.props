@@ -37,5 +37,4 @@ plugin.org.editorconfig.jedit.EditorConfigPlugin.menu=\
                                                       editorconfig-plugin.settings \
                                                       - \
                                                       editorconfig-plugin.reload-editorconfig
-editorconfig-plugin.settings.label=Settings...
 editorconfig-plugin.reload-editorconfig.label=Reload EditorConfig

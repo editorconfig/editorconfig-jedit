@@ -46,12 +46,4 @@ POSSIBILITY OF SUCH DAMAGE.
       javax.swing.JOptionPane.showMessageDialog(null, "EditorConfig successfully reloaded.");
     </CODE>
   </ACTION>
-
-  <ACTION NAME="editorconfig-plugin.settings">
-    <CODE>
-      import org.editorconfig.jedit.SettingsDialog;
-      SettingsDialog sd = new SettingsDialog();
-      sd.setVisible(true);
-    </CODE>
-  </ACTION>
 </ACTIONS>
