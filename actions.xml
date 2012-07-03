@@ -30,19 +30,24 @@ POSSIBILITY OF SUCH DAMAGE.
       try
       {
         org.editorconfig.jedit.EditorConfigPlugin.getPlugin().loadEditorConfig(buffer);
-      }
-      catch(java.io.IOException e)
-      {
+      } catch(java.io.IOException e) {
+        javax.swing.JOptionPane.showMessageDialog(null,
+            "Failed to reload EditorConfig: \n" + e.toString());
+        return;
+      } catch(java.lang.NumberFormatException e) {
+        javax.swing.JOptionPane.showMessageDialog(null,
+            "Failed to reload EditorConfig: \n" + e.toString());
+        return;
+      } catch (org.editorconfig.core.EditorConfigException e) {
+        javax.swing.JOptionPane.showMessageDialog(null,
+            "Failed to reload EditorConfig: \n" + e.toString());
+        return;
+      } catch (javax.script.ScriptException e) {
         javax.swing.JOptionPane.showMessageDialog(null,
             "Failed to reload EditorConfig: \n" + e.toString());
         return;
       }
-      catch(java.io.NumberFormatException e)
-      {
-        javax.swing.JOptionPane.showMessageDialog(null,
-            "Failed to reload EditorConfig: \n" + e.toString());
-        return;
-      }
+
       javax.swing.JOptionPane.showMessageDialog(null, "EditorConfig successfully reloaded.");
     </CODE>
   </ACTION>
