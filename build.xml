@@ -41,5 +41,9 @@ POSSIBILITY OF SUCH DAMAGE.
       todir="${install.dir}" force="true" />
   </target>
 
+  <path id="project.class.path">
+    <pathelement location="${basedir}/editorconfig-core-py/java-binding/build/editorconfig.jar" />
+  </path>
+
   <target name="all" depends="build-editorconfig-core,build" />
 </project>
