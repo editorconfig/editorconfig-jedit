@@ -33,8 +33,5 @@ plugin.org.editorconfig.jedit.EditorConfigPlugin.usePluginHome=false
 plugin.org.editorconfig.jedit.EditorConfigPlugin.jars=editorconfig.jar
 
 # menu
-plugin.org.editorconfig.jedit.EditorConfigPlugin.menu=\
-                                                      editorconfig-plugin.settings \
-                                                      - \
-                                                      editorconfig-plugin.reload-editorconfig
+plugin.org.editorconfig.jedit.EditorConfigPlugin.menu=editorconfig-plugin.reload-editorconfig
 editorconfig-plugin.reload-editorconfig.label=Reload EditorConfig
