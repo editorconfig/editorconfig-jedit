@@ -25,13 +25,10 @@
 
 package org.editorconfig.jedit;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Properties;
+import javax.script.ScriptException;
+import org.editorconfig.core.*;
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.EBComponent;
 import org.gjt.sp.jedit.EBMessage;
@@ -45,9 +42,6 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
 {
     static private EditorConfigPlugin plugin;
 
-    // path to EditorConfig Executable
-    private String editorConfigExecutablePath = "editorconfig";
-
     // get the plugin instance
     static public EditorConfigPlugin getPlugin()
     {
@@ -59,68 +53,9 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         plugin = this;
     }
 
-    void setEditorConfigExecutablePath(String exec)
-    {
-        editorConfigExecutablePath = exec;
-    }
-
-    String getEditorConfigExecutablePath()
-    {
-        return editorConfigExecutablePath;
-    }
-
-    void saveSettings(String key, String value)
-        throws SecurityException, IOException
-    {
-        File pluginHome = getPluginHome();
-
-        // jEdit settings dir does not exist
-        if (pluginHome == null)
-            return;
-
-        // if plugin home does not exist, create it
-        if (!pluginHome.exists())
-            pluginHome.mkdir();
-
-        // save to settings.properties
-        FileOutputStream fos = new FileOutputStream(
-                pluginHome.getPath() + File.separator + "settings.properties");
-        Properties properties = new Properties();
-        properties.setProperty(key, value);
-        properties.store(fos, "EditorConfig jEdit plugin settings");
-
-        return;
-    }
-
-    void loadSettings()
-    {
-        File pluginHome = getPluginHome();
-
-        Properties properties = new Properties();
-
-        try
-        {
-            properties.load(new FileInputStream(
-                        pluginHome.getPath() + File.separator +
-                        "settings.properties"));
-        }
-        catch (Exception e)
-        {
-            // ignore every exception
-            e.printStackTrace();
-            return;
-        }
-
-        // set values
-        editorConfigExecutablePath = properties.getProperty(
-                "editorconfig_executable_path", "editorconfig");
-    }
-
     @Override
     public void start()
     {
-        loadSettings();
-
         EditBus.addToBus(this);
     }
 
@@ -143,35 +78,23 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
     }
 
     public void loadEditorConfig(Buffer buf)
-        throws IOException, NumberFormatException
+        throws NumberFormatException, EditorConfigException, ScriptException
     {
-        Process proc;
-        proc = new ProcessBuilder(editorConfigExecutablePath,
-                buf.getPath()).start();
-
-        InputStreamReader isr = new InputStreamReader(
-                proc.getInputStream());
-        BufferedReader br = new BufferedReader(isr);
-
         // EditorConfig confs
         EditorConfigConf ecConf = new EditorConfigConf();
 
-        String line;
-        while (true)
+        EditorConfig ec = null;
+
+        ec = new EditorConfig();
+
+        List<EditorConfig.OutPair> outPairs = null;
+
+        outPairs = ec.getProperties(buf.getPath());
+
+        for (EditorConfig.OutPair pair : outPairs)
         {
-            if ((line = br.readLine()) == null)
-                break;
-
-            // Get the position of '='
-            int eq_pos = line.indexOf('=');
-
-            if (eq_pos == -1 || // = is not found, skip this line
-                    eq_pos == 0 || // Left side of = is empty
-                    eq_pos == line.length() - 1) // right side is empty
-                continue;
-
-            String key = line.substring(0, eq_pos).trim();
-            String value = line.substring(eq_pos + 1).trim();
+            String key = pair.getKey();
+            String value = pair.getVal();
 
             if (key.equals("indent_style")) // soft or hard tabs?
                 ecConf.indentStyle = value;
@@ -243,15 +166,15 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
                 try
                 {
                     loadEditorConfig(buf);
-                }
-                catch(IOException e)
-                {
+                } catch (NumberFormatException e) {
                     Log.log(Log.ERROR, this,
                             "Failed to load EditorConfig: " + e.toString());
                     e.printStackTrace();
-                }
-                catch(NumberFormatException e)
-                {
+                } catch (EditorConfigException e) {
+                    Log.log(Log.ERROR, this,
+                            "Failed to load EditorConfig: " + e.toString());
+                    e.printStackTrace();
+                } catch (ScriptException e) {
                     Log.log(Log.ERROR, this,
                             "Failed to load EditorConfig: " + e.toString());
                     e.printStackTrace();

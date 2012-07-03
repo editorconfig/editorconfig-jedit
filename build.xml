@@ -24,12 +24,26 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project name="EditorConfigPlugin" default="build" basedir=".">
+<project name="EditorConfigPlugin" default="all" basedir=".">
   <description>
     This is an ant build.xml file for building the EditorConfig plugin for
     jEdit.
   </description>
+
   <property file="build.properties" />
   <property name="build.support" value="./build-support" />
   <import file="${build.support}/plugin-build.xml" />
+
+  <!-- build the EditorConfig core -->
+  <target name="build-editorconfig-core">
+    <ant dir="./editorconfig-core-py/java-binding" inheritall="false" />
+    <copy file="./editorconfig-core-py/java-binding/build/editorconfig.jar"
+      todir="${install.dir}" force="true" />
+  </target>
+
+  <path id="project.class.path">
+    <pathelement location="${basedir}/editorconfig-core-py/java-binding/build/editorconfig.jar" />
+  </path>
+
+  <target name="all" depends="build-editorconfig-core,build" />
 </project>
