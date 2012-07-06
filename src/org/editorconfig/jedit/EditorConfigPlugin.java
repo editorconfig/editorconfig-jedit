@@ -43,6 +43,7 @@ import org.gjt.sp.util.Log;
 public class EditorConfigPlugin extends EditPlugin implements EBComponent
 {
     static private EditorConfigPlugin plugin;
+    static private EditorConfig ec;
 
     // get the plugin instance
     static public EditorConfigPlugin getPlugin()
@@ -82,22 +83,18 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
     public void loadEditorConfig(Buffer buf)
         throws NumberFormatException, EditorConfigException
     {
-        // EditorConfig confs
-        EditorConfigConf ecConf = new EditorConfigConf();
-
-        EditorConfig ec = null;
-
         // Get the possible paths of editorconfig.jar. In jedit,
         // editorconfig.jar cannot locate itself, thus if we don't point them
         // out explicitly, python modules may not be found.
+        if (ec == null)
+            ec = new EditorConfig(Arrays.asList(
+                        this.getPluginJAR().getRequiredJars().toArray(
+                            new String[1])));
 
-        Log.log(Log.ERROR, this, this.getPluginJAR().getRequiredJars().toArray());
-        ec = new EditorConfig(Arrays.asList(
-                    this.getPluginJAR().getRequiredJars().toArray(new String[1])));
+        // EditorConfig confs
+        EditorConfigConf ecConf = new EditorConfigConf();
 
-        List<EditorConfig.OutPair> outPairs = null;
-
-        outPairs = ec.getProperties(buf.getPath());
+        List<EditorConfig.OutPair> outPairs = ec.getProperties(buf.getPath());
 
         for (EditorConfig.OutPair pair : outPairs)
         {
