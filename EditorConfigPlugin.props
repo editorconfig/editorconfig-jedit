@@ -29,8 +29,11 @@ plugin.org.editorconfig.jedit.EditorConfigPlugin.name=EditorConfig
 plugin.org.editorconfig.jedit.EditorConfigPlugin.author=EditorConfig Team
 plugin.org.editorconfig.jedit.EditorConfigPlugin.version=0.3
 plugin.org.editorconfig.jedit.EditorConfigPlugin.description=EditorConfig plugin for jEdit
+plugin.org.editorconfig.jedit.EditorConfigPlugin.longdescription=description.txt
 plugin.org.editorconfig.jedit.EditorConfigPlugin.usePluginHome=false
 plugin.org.editorconfig.jedit.EditorConfigPlugin.jars=editorconfig.jar
+plugin.org.editorconfig.jedit.EditorConfigPlugin.depend.0=jedit 04.04.99.01
+plugin.org.editorconfig.jedit.EditorConfigPlugin.depend.1=jdk 1.6
 
 # menu
 plugin.org.editorconfig.jedit.EditorConfigPlugin.menu=editorconfig-plugin.reload-editorconfig
