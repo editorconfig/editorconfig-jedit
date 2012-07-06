@@ -27,7 +27,7 @@
 plugin.org.editorconfig.jedit.EditorConfigPlugin.activiate=startup
 plugin.org.editorconfig.jedit.EditorConfigPlugin.name=EditorConfig
 plugin.org.editorconfig.jedit.EditorConfigPlugin.author=EditorConfig Team
-plugin.org.editorconfig.jedit.EditorConfigPlugin.version=0.3
+plugin.org.editorconfig.jedit.EditorConfigPlugin.version=0.3.1
 plugin.org.editorconfig.jedit.EditorConfigPlugin.description=EditorConfig plugin for jEdit
 plugin.org.editorconfig.jedit.EditorConfigPlugin.longdescription=description.txt
 plugin.org.editorconfig.jedit.EditorConfigPlugin.usePluginHome=false
