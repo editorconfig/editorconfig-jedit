@@ -25,9 +25,11 @@
 
 package org.editorconfig.jedit;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
-import javax.script.ScriptException;
 import org.editorconfig.core.*;
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.EBComponent;
@@ -78,14 +80,20 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
     }
 
     public void loadEditorConfig(Buffer buf)
-        throws NumberFormatException, EditorConfigException, ScriptException
+        throws NumberFormatException, EditorConfigException
     {
         // EditorConfig confs
         EditorConfigConf ecConf = new EditorConfigConf();
 
         EditorConfig ec = null;
 
-        ec = new EditorConfig();
+        // Get the possible paths of editorconfig.jar. In jedit,
+        // editorconfig.jar cannot locate itself, thus if we don't point them
+        // out explicitly, python modules may not be found.
+
+        Log.log(Log.ERROR, this, this.getPluginJAR().getRequiredJars().toArray());
+        ec = new EditorConfig(Arrays.asList(
+                    this.getPluginJAR().getRequiredJars().toArray(new String[1])));
 
         List<EditorConfig.OutPair> outPairs = null;
 
@@ -171,10 +179,6 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
                             "Failed to load EditorConfig: " + e.toString());
                     e.printStackTrace();
                 } catch (EditorConfigException e) {
-                    Log.log(Log.ERROR, this,
-                            "Failed to load EditorConfig: " + e.toString());
-                    e.printStackTrace();
-                } catch (ScriptException e) {
                     Log.log(Log.ERROR, this,
                             "Failed to load EditorConfig: " + e.toString());
                     e.printStackTrace();
