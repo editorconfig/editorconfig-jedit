@@ -32,7 +32,10 @@ POSSIBILITY OF SUCH DAMAGE.
 
   <property file="build.properties" />
   <property name="src.dir" location="src" />
+  <property name="dist.target" value="all" />
   <property name="build.support" value="./build-support" />
+  <property name="jedit.plugins.dir" value="${install.dir}" />
+
   <import file="${build.support}/plugin-build.xml" />
 
   <!-- build the EditorConfig core -->
@@ -41,6 +44,10 @@ POSSIBILITY OF SUCH DAMAGE.
     <copy file="./editorconfig-core-py/java-binding/build/editorconfig.jar"
       todir="${install.dir}" force="true" />
   </target>
+
+  <selector id="packageFiles">
+    <filename name="docs/index.html" />
+  </selector>
 
   <path id="project.class.path">
     <pathelement location="${basedir}/editorconfig-core-py/java-binding/build/editorconfig.jar" />

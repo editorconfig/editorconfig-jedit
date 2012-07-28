@@ -35,6 +35,9 @@ plugin.org.editorconfig.jedit.EditorConfigPlugin.jars=editorconfig.jar
 plugin.org.editorconfig.jedit.EditorConfigPlugin.depend.0=jedit 04.04.99.01
 plugin.org.editorconfig.jedit.EditorConfigPlugin.depend.1=jdk 1.6
 
+# doc
+plugin.org.editorconfig.jedit.EditorConfigPlugin.docs=docs/index.html
+
 # menu
 plugin.org.editorconfig.jedit.EditorConfigPlugin.menu=editorconfig-plugin.reload-editorconfig
 editorconfig-plugin.reload-editorconfig.label=Reload EditorConfig
