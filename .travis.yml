@@ -6,9 +6,10 @@ jdk:
   - oraclejdk7
 
 install:
-  - sudo apt-get install jedit
+  - sudo apt-get install jedit subversion
 
 before_script:
+  - svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
   - cp build.properties.in build.properties
 
 # Run the Build script
