@@ -8,18 +8,23 @@ This is an [EditorConfig][] plugin for [jEdit][].
 
 1.  Download [ant][] and install it.
 
-2.  Copy `build.properties.in` to `build.properties`. Edit the
+2.  In the EditorConfig jEdit Plugin project root directory, get the jEdit
+    build-support files:
+
+        svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
+
+3.  Copy `build.properties.in` to `build.properties`. Edit the
     `build.properties` file and modify `jedit.install.dir` to the jEdit
     installation directory in your system.
 
-3.  Switch to EditorConfig jEdit Plugin project root directory and run `ant`.
+4.  Switch to EditorConfig jEdit Plugin project root directory and run `ant`.
 
-4.  If succeeded, Plugin should be built in `build/jar/`. Copy
+5.  If succeeded, Plugin should be built in `build/jar/`. Copy
     `build/jar/EditorConfigPlugin.jar` and `build/jar/editorconfig.jar` to your
     jEdit plugin directory (this should be `~/.jedit/jars` on UNIX and
     `${JEDIT_INATALLATION_DIRECTORY}/jars` on Windows).
 
-5.  If jEdit is running, restart jEdit.
+6.  If jEdit is running, restart jEdit.
 
 For example, on Debian, the commands are like this:
 
@@ -28,6 +33,7 @@ $ sudo apt-get install ant git
 $ git clone git://github.com/editorconfig/editorconfig-jedit.git
 $ git submodule update --init
 $ cd editorconfig-jedit
+$ svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
 $ cp build.properties.in build.properties # Copy build properties and modify jedit.install.dir as needed
 $ ant
 $ cp ./build/jar/*.jar ~/.jedit/jars
