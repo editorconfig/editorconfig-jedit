@@ -38,6 +38,12 @@ POSSIBILITY OF SUCH DAMAGE.
 
   <import file="${build.support}/plugin-build.xml" />
 
+  <target name="clean">
+    <ant dir="./editorconfig-core-py/java-binding"
+         target="clean" inheritall="false" />
+    <antcall target="jEditPlugin.clean" />
+  </target>
+
   <!-- build the EditorConfig core -->
   <target name="build-editorconfig-core">
 
