@@ -24,7 +24,7 @@
 #
 
 # general plugin information
-plugin.org.editorconfig.jedit.EditorConfigPlugin.activiate=startup
+plugin.org.editorconfig.jedit.EditorConfigPlugin.activate=startup
 plugin.org.editorconfig.jedit.EditorConfigPlugin.name=EditorConfig
 plugin.org.editorconfig.jedit.EditorConfigPlugin.author=EditorConfig Team
 plugin.org.editorconfig.jedit.EditorConfigPlugin.version=0.3.1
