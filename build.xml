@@ -38,15 +38,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
   <import file="${build.support}/plugin-build.xml" />
 
-  <target name="clean">
-    <ant dir="./editorconfig-core-py/java-binding"
-         target="clean" inheritall="false" />
-    <antcall target="jEditPlugin.clean" />
-  </target>
-
-  <!-- build the EditorConfig core -->
-  <target name="build-editorconfig-core">
-
+  <target name="test-submodule" >
     <!-- Check the EditorConfig Python Core files. If they do not exist, remind
          user to checkout the submodule. -->
     <fail message="It seems that EditorConfig Python Core submodule is not available. Please run 'git submodule update --init' to checkout the submodule.">
@@ -56,7 +48,16 @@ POSSIBILITY OF SUCH DAMAGE.
         </not>
       </condition>
     </fail>
+  </target>
+  
+  <target name="clean" depends="test-submodule" >
+    <ant dir="./editorconfig-core-py/java-binding"
+         target="clean" inheritall="false" />
+    <antcall target="jEditPlugin.clean" />
+  </target>
 
+  <!-- build the EditorConfig core -->
+  <target name="build-editorconfig-core" depends="test-submodule" >
     <ant dir="./editorconfig-core-py/java-binding" inheritall="false" />
     <copy file="./editorconfig-core-py/java-binding/build/editorconfig.jar"
       todir="${install.dir}" force="true" />
