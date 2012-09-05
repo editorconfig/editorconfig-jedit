@@ -6,6 +6,15 @@ This is an [EditorConfig][] plugin for [jEdit][].
 
 ## Installation
 
+### Install from jEdit Plugin Manager (Preferred)
+
+1.  Launch the jEdit plugin manager. It's in **Plugins** - **Plugin Manager...**.
+
+2.  Click on the **Install** tab, find **EditorConfig** in the plugin list.
+    Check it and click on the **Install** button.
+
+### Install from Source
+
 1.  Download [ant][] and install it.
 
 2.  In the EditorConfig jEdit Plugin project root directory, get the jEdit
