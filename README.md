@@ -13,6 +13,9 @@ This is an [EditorConfig][] plugin for [jEdit][].
 2.  Click on the **Install** tab, find **EditorConfig** in the plugin list.
     Check it and click on the **Install** button.
 
+If you have problem using the Plugin Manager, you can also download the binary
+from [here](http://plugins.jedit.org/plugins/?EditorConfig).
+
 ### Install from Source
 
 1.  Download [ant][] and install it.
