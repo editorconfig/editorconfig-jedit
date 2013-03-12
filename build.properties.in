@@ -12,7 +12,7 @@
 jedit.install.dir=/usr/share/jedit
 
 # location where your jars are installed
-install.dir=./build/jar
+install.dir=./build/jars
 
 # Location where the plugins are. This property used when defining dependencies on other plugins.
 # Eg. In your plugin's classpath.
