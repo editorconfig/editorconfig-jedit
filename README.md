@@ -13,7 +13,7 @@ This is an [EditorConfig][] plugin for [jEdit][].
 2.  Click on the **Install** tab, find **EditorConfig** in the plugin list.
     Check it and click on the **Install** button.
 
-If you have problem using the Plugin Manager, you can also download the binary
+If you have problem using the Plugin Manager, you can also download the binaries
 from [here](http://plugins.jedit.org/plugins/?EditorConfig).
 
 ### Install from Source
@@ -31,8 +31,8 @@ from [here](http://plugins.jedit.org/plugins/?EditorConfig).
 
 4.  Switch to EditorConfig jEdit Plugin project root directory and run `ant`.
 
-5.  If succeeded, Plugin should be built in `build/jar/`. Copy
-    `build/jar/EditorConfigPlugin.jar` and `build/jar/editorconfig.jar` to your
+5.  If succeeded, Plugin should be built in `build/jars/`. Copy
+    `build/jars/EditorConfigPlugin.jar` and `build/jars/editorconfig.jar` to your
     jEdit plugin directory (this should be `~/.jedit/jars` on UNIX and
     `${JEDIT_INATALLATION_DIRECTORY}/jars` on Windows).
 
@@ -48,7 +48,7 @@ $ cd editorconfig-jedit
 $ svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
 $ cp build.properties.in build.properties # Copy build properties and modify jedit.install.dir as needed
 $ ant
-$ cp ./build/jar/*.jar ~/.jedit/jars
+$ cp ./build/jars/*.jar ~/.jedit/jars
 ```
 
 ## Supported properties
