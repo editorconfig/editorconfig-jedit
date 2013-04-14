@@ -35,31 +35,32 @@ POSSIBILITY OF SUCH DAMAGE.
   <property name="dist.target" value="all" />
   <property name="build.support" value="./build-support" />
   <property name="jedit.plugins.dir" value="${install.dir}" />
+  <property name="editorconfig.java.dir" value="./editorconfig-core-java-binding" />
 
   <import file="${build.support}/plugin-build.xml" />
 
   <target name="test-submodule" >
-    <!-- Check the EditorConfig Python Core files. If they do not exist, remind
-         user to checkout the submodule. -->
-    <fail message="It seems that EditorConfig Python Core submodule is not available. Please run 'git submodule update --init' to checkout the submodule.">
+    <!-- Check the EditorConfig Core Java Binding files. If they do not exist,
+         remind user to checkout the submodule. -->
+    <fail message="It seems that EditorConfig Core Java Binding submodule is not available. Please run 'git submodule update --init --recursive' to checkout the submodule.">
       <condition>
         <not>
-          <available file="./editorconfig-core-py/java-binding" type="dir" />
+          <available file="${editorconfig.java.dir}" type="dir" />
         </not>
       </condition>
     </fail>
   </target>
   
   <target name="clean" depends="test-submodule" >
-    <ant dir="./editorconfig-core-py/java-binding"
+    <ant dir="${editorconfig.java.dir}"
          target="clean" inheritall="false" />
     <antcall target="jEditPlugin.clean" />
   </target>
 
   <!-- build the EditorConfig core -->
   <target name="build-editorconfig-core" depends="test-submodule" >
-    <ant dir="./editorconfig-core-py/java-binding" inheritall="false" />
-    <copy file="./editorconfig-core-py/java-binding/build/editorconfig.jar"
+    <ant dir="${editorconfig.java.dir}" inheritall="false" />
+    <copy file="${editorconfig.java.dir}/build/editorconfig.jar"
       todir="${install.dir}" force="true" />
   </target>
 
@@ -68,7 +69,7 @@ POSSIBILITY OF SUCH DAMAGE.
   </selector>
 
   <path id="project.class.path">
-    <pathelement location="${basedir}/editorconfig-core-py/java-binding/build/editorconfig.jar" />
+    <pathelement location="${basedir}/${editorconfig.java.dir}/build/editorconfig.jar" />
   </path>
 
   <target name="all" depends="build-editorconfig-core,build" />

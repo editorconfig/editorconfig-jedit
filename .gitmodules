@@ -1,0 +1,3 @@
+[submodule "editorconfig-core-java-binding"]
+	path = editorconfig-core-java-binding
+	url = git://github.com/editorconfig/editorconfig-core-java-binding.git
