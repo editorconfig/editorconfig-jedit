@@ -59,6 +59,7 @@ The EditorConfig jEdit plugin supports the following EditorConfig [properties][]
 * indent_size
 * tab_width
 * end_of_line
+* charset
 * root (only used by EditorConfig core)
 
 

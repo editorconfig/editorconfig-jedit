@@ -75,6 +75,7 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         int         indentSize = 0;
         int         tabWidth = 0;
         String      endOfLine = null;
+        String      charset = null;
 
         // indentStyle will be set to this value if indent_size = tab
         static final int    INDENT_SIZE_TAB = -1000;
@@ -121,6 +122,8 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
             }
             else if (key.equals("end_of_line")) // eof
                 ecConf.endOfLine = value;
+            else if (key.equals("charset")) // charset
+                ecConf.charset = value;
         }
 
         // set buffer after reading the stdin
@@ -157,6 +160,29 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
                 buf.setStringProperty(JEditBuffer.LINESEP, "\r\n");
             else if (ecConf.endOfLine.equals("cr"))
                 buf.setStringProperty(JEditBuffer.LINESEP, "\r");
+        }
+
+        if (ecConf.charset != null) // charset
+        {
+            String charset = null;
+            if (ecConf.charset.equals("utf-8") ||
+                    ecConf.charset.equals("utf-16be") ||
+                    ecConf.charset.equals("utf-16le"))
+                charset = ecConf.charset.toUpperCase();
+            else if (ecConf.charset.equals("latin1"))
+                charset = "US-ASCII";
+            else if (ecConf.charset.equals("utf-8-bom"))
+                charset = "UTF-8Y";
+
+            // if we have a valid charset and the charset is different from the
+            // current one, we set it and disable the encoding auto detection
+            if (charset != null &&
+                    !charset.equals(
+                        buf.getStringProperty(JEditBuffer.ENCODING)))
+            {
+                buf.setStringProperty(JEditBuffer.ENCODING, charset);
+                buf.setBooleanProperty(Buffer.ENCODING_AUTODETECT, false);
+            }
         }
     }
 	public void handleMessage(EBMessage msg)
