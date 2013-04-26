@@ -43,7 +43,7 @@ For example, on Debian, the commands are like this:
 ```Shell
 $ sudo apt-get install ant git
 $ git clone git://github.com/editorconfig/editorconfig-jedit.git
-$ git submodule update --init
+$ git submodule update --init --recursive
 $ cd editorconfig-jedit
 $ svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
 $ cp build.properties.in build.properties # Copy build properties and modify jedit.install.dir as needed
