@@ -76,6 +76,7 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         int         tabWidth = 0;
         String      endOfLine = null;
         String      charset = null;
+        String      jeditCharset = null;
 
         // indentStyle will be set to this value if indent_size = tab
         static final int    INDENT_SIZE_TAB = -1000;
@@ -124,6 +125,8 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
                 ecConf.endOfLine = value;
             else if (key.equals("charset")) // charset
                 ecConf.charset = value;
+            else if (key.equals("jedit_charset")) // jedit_charset
+                ecConf.jeditCharset = value;
         }
 
         // set buffer after reading the stdin
@@ -162,9 +165,10 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
                 buf.setStringProperty(JEditBuffer.LINESEP, "\r");
         }
 
-        if (ecConf.charset != null) // charset
+        String charset = null;
+        // charset. Never use jedit_charset if charset is present
+        if (ecConf.charset != null)
         {
-            String charset = null;
             if (ecConf.charset.equals("utf-8") ||
                     ecConf.charset.equals("utf-16be") ||
                     ecConf.charset.equals("utf-16le"))
@@ -173,16 +177,18 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
                 charset = "US-ASCII";
             else if (ecConf.charset.equals("utf-8-bom"))
                 charset = "UTF-8Y";
+        }
+        else if (ecConf.jeditCharset != null)
+            charset = ecConf.jeditCharset;
 
-            // if we have a valid charset and the charset is different from the
-            // current one, we set it and disable the encoding auto detection
-            if (charset != null &&
-                    !charset.equals(
-                        buf.getStringProperty(JEditBuffer.ENCODING)))
-            {
-                buf.setStringProperty(JEditBuffer.ENCODING, charset);
-                buf.setBooleanProperty(Buffer.ENCODING_AUTODETECT, false);
-            }
+        // if we have a valid charset and the charset is different from the
+        // current one, we set it and disable the encoding auto detection
+        if (charset != null &&
+                !charset.equals(
+                    buf.getStringProperty(JEditBuffer.ENCODING)))
+        {
+            buf.setStringProperty(JEditBuffer.ENCODING, charset);
+            buf.setBooleanProperty(Buffer.ENCODING_AUTODETECT, false);
         }
     }
 	public void handleMessage(EBMessage msg)

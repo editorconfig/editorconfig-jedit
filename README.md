@@ -62,6 +62,14 @@ The EditorConfig jEdit plugin supports the following EditorConfig [properties][]
 * charset
 * root (only used by EditorConfig core)
 
+In addition, this plugin also supports a specific property which is only valid for jEdit:
+
+* jedit_charset
+
+The usage of this property is similar to `charset`, but the value is the
+encoding string defined by jEdit, and is case sensitive. If both `charset` and
+`jedit_charset` are present, only `charset` will be used.
+
 
 [ant]: http://ant.apache.org
 [EditorConfig]: http://editorconfig.org
