@@ -37,6 +37,7 @@ import org.gjt.sp.jedit.EBMessage;
 import org.gjt.sp.jedit.EditBus;
 import org.gjt.sp.jedit.EditPlugin;
 import org.gjt.sp.jedit.buffer.JEditBuffer;
+import org.gjt.sp.jedit.io.EncodingServer;
 import org.gjt.sp.jedit.msg.BufferUpdate;
 import org.gjt.sp.util.Log;
 
@@ -177,9 +178,16 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
                 charset = "US-ASCII";
             else if (ecConf.charset.equals("utf-8-bom"))
                 charset = "UTF-8Y";
+            else // Other unknown charset
+                Log.log(Log.ERROR, this,
+                        "Unrecognized charset: charset=" + ecConf.charset);
         }
         else if (ecConf.jeditCharset != null)
-            charset = ecConf.jeditCharset;
+            if(EncodingServer.hasEncoding(ecConf.jeditCharset))
+                charset = ecConf.jeditCharset;
+            else
+                Log.log(Log.ERROR, this,
+                        "Unrecognized charset jedit_charset=" + ecConf.jeditCharset);
 
         // if we have a valid charset and the charset is different from the
         // current one, we set it and disable the encoding auto detection
