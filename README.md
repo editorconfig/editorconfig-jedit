@@ -70,6 +70,11 @@ The usage of this property is similar to `charset`, but the value is the
 encoding string defined by jEdit, and is case sensitive. If both `charset` and
 `jedit_charset` are present, only `charset` will be used.
 
+## Bugs and Feature Requests
+
+Feel free to submit bugs, feature requests, and other issues to the main
+[EditorConfig issue tracker](https://github.com/editorconfig/editorconfig/issues).
+
 
 [ant]: http://ant.apache.org
 [EditorConfig]: http://editorconfig.org
