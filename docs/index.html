@@ -1,5 +1,7 @@
 <h1>EditorConfig jEdit Plugin</h1>
 
+<p><a href="http://travis-ci.org/editorconfig/editorconfig-jedit"><img src="https://secure.travis-ci.org/editorconfig/editorconfig-jedit.png?branch=master" alt="Build Status" /></a></p>
+
 <p>This is an <a href="http://editorconfig.org">EditorConfig</a> plugin for <a href="http://www.jedit.org">jEdit</a>.</p>
 
 <h2>Installation</h2>
@@ -7,7 +9,7 @@
 <h3>Install from jEdit Plugin Manager (Preferred)</h3>
 
 <ol>
-<li><p>Launch the jEdit plugin manager. It's in <strong>Plugins</strong> - <strong>Plugin Manager...</strong>.</p></li>
+<li><p>Launch the jEdit plugin manager. It&rsquo;s in <strong>Plugins</strong> - <strong>Plugin Manager&hellip;</strong>.</p></li>
 <li><p>Click on the <strong>Install</strong> tab, find <strong>EditorConfig</strong> in the plugin list.
 Check it and click on the <strong>Install</strong> button.</p></li>
 </ol>
@@ -19,6 +21,10 @@ from <a href="http://plugins.jedit.org/plugins/?EditorConfig">here</a>.</p>
 <h3>Install from Source</h3>
 
 <ol>
+<li><p>Make sure that submodules are checked out and up-to-date:</p>
+
+<pre><code>git submodule update --recursive --init
+</code></pre></li>
 <li><p>Download <a href="http://ant.apache.org">ant</a> and install it.</p></li>
 <li><p>In the EditorConfig jEdit Plugin project root directory, get the jEdit
 build-support files:</p>
