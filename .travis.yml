@@ -12,7 +12,7 @@ install:
   - sudo apt-get install jedit subversion
 
 before_script:
-  - svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
+  - svn co https://svn.code.sf.net/p/jedit/svn/build-support/trunk build-support
   - cp build.properties.in build.properties
 
 # Run the Build script

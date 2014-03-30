@@ -27,7 +27,7 @@ from [here](http://plugins.jedit.org/plugins/?EditorConfig).
 3.  In the EditorConfig jEdit Plugin project root directory, get the jEdit
     build-support files:
 
-        svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk build-support
+        svn co https://svn.code.sf.net/p/jedit/svn/build-support/trunk build-support
 
 4.  Copy `build.properties.in` to `build.properties`. Edit the
     `build.properties` file and modify `jedit.install.dir` to the jEdit
