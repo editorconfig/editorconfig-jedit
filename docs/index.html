@@ -1,3 +1,8 @@
+<html>
+<head>
+<title> EditorConfig Plugin for jEdit </title>
+</head>
+<body>
 <h1>EditorConfig jEdit Plugin</h1>
 
 <p><a href="http://travis-ci.org/editorconfig/editorconfig-jedit"><img src="https://secure.travis-ci.org/editorconfig/editorconfig-jedit.png?branch=master" alt="Build Status" /></a></p>
@@ -45,7 +50,7 @@ jEdit plugin directory (this should be <code>~/.jedit/jars</code> on UNIX and
 
 <p>For example, on Debian, the commands are like this:</p>
 
-<p><code>Shell
+<p><pre>Shell
 $ sudo apt-get install ant git
 $ git clone git://github.com/editorconfig/editorconfig-jedit.git
 $ git submodule update --init --recursive
@@ -54,7 +59,7 @@ $ svn co https://jedit.svn.sourceforge.net/svnroot/jedit/build-support/trunk bui
 $ cp build.properties.in build.properties # Copy build properties and modify jedit.install.dir as needed
 $ ant
 $ cp ./build/jars/*.jar ~/.jedit/jars
-</code></p>
+</pre></p>
 
 <h2>Supported properties</h2>
 
@@ -85,3 +90,6 @@ encoding string defined by jEdit, and is case sensitive. If both <code>charset</
 
 <p>Feel free to submit bugs, feature requests, and other issues to the main
 <a href="https://github.com/editorconfig/editorconfig/issues">EditorConfig issue tracker</a>.</p>
+
+</body>
+</html>
