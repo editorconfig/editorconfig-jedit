@@ -67,6 +67,7 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
     public void stop()
     {
         EditBus.removeFromBus(this);
+        ec = null;
     }
 
     // an inner class that stores EditorConfig configuration info
