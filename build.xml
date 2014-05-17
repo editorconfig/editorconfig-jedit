@@ -35,14 +35,14 @@ POSSIBILITY OF SUCH DAMAGE.
   <property name="dist.target" value="all" />
   <property name="build.support" value="./build-support" />
   <property name="jedit.plugins.dir" value="${install.dir}" />
-  <property name="editorconfig.java.dir" value="./editorconfig-core-java-binding" />
+  <property name="editorconfig.java.dir" value="./editorconfig-core-java" />
 
   <import file="${build.support}/plugin-build.xml" />
 
   <target name="test-submodule" >
-    <!-- Check the EditorConfig Core Java Binding files. If they do not exist,
+    <!-- Check the EditorConfig Java Core files. If they do not exist,
          remind user to checkout the submodule. -->
-    <fail message="It seems that EditorConfig Core Java Binding submodule is not available. Please run 'git submodule update --init --recursive' to checkout the submodule.">
+    <fail message="It seems that EditorConfig Java Core submodule is not available. Please run 'git submodule update --init --recursive' to checkout the submodule.">
       <condition>
         <not>
           <available file="${editorconfig.java.dir}" type="dir" />
@@ -60,7 +60,9 @@ POSSIBILITY OF SUCH DAMAGE.
   <!-- build the EditorConfig core -->
   <target name="build-editorconfig-core" depends="test-submodule" >
     <ant dir="${editorconfig.java.dir}" inheritall="false" />
-    <copy file="${editorconfig.java.dir}/build/editorconfig.jar"
+    <move file="${editorconfig.java.dir}/lib/editorconfig-core-java.jar"
+      tofile="${editorconfig.java.dir}/lib/editorconfig.jar" />
+    <copy file="${editorconfig.java.dir}/lib/editorconfig.jar"
       todir="${install.dir}" force="true" />
   </target>
 
@@ -69,7 +71,7 @@ POSSIBILITY OF SUCH DAMAGE.
   </selector>
 
   <path id="project.class.path">
-    <pathelement location="${basedir}/${editorconfig.java.dir}/build/editorconfig.jar" />
+    <pathelement location="${basedir}/${editorconfig.java.dir}/lib/editorconfig.jar" />
   </path>
 
   <target name="all" depends="build-editorconfig-core,build" />

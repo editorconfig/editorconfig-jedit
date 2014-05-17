@@ -91,9 +91,7 @@ public class EditorConfigPlugin extends EditPlugin implements EBComponent
         // editorconfig.jar cannot locate itself, thus if we don't point them
         // out explicitly, python modules may not be found.
         if (ec == null)
-            ec = new EditorConfig(Arrays.asList(
-                        this.getPluginJAR().getRequiredJars().toArray(
-                            new String[1])));
+            ec = new EditorConfig();
 
         // EditorConfig confs
         EditorConfigConf ecConf = new EditorConfigConf();
