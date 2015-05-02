@@ -1,6 +1,6 @@
 # EditorConfig jEdit Plugin
 
-[![Build Status](https://secure.travis-ci.org/editorconfig/editorconfig-jedit.png?branch=master)](http://travis-ci.org/editorconfig/editorconfig-jedit)
+[![Build Status](https://secure.travis-ci.org/editorconfig/editorconfig-jedit.svg?branch=master)](http://travis-ci.org/editorconfig/editorconfig-jedit)
 
 This is an [EditorConfig][] plugin for [jEdit][].
 
