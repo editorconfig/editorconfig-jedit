@@ -6,4 +6,4 @@ EditorConfig files are easily readibly and they work nicely with version
 control systems.
 
 This is the EditorConfig plugin of jEdit. For more information, please visit
-< http://editorconfig.org >.
+< https://editorconfig.org >.

@@ -81,7 +81,7 @@ Feel free to submit bugs, feature requests, and other issues to the main
 
 
 [ant]: http://ant.apache.org
-[EditorConfig]: http://editorconfig.org
+[EditorConfig]: https://editorconfig.org
 [EditorConfig core]: https://github.com/editorconfig/editorconfig-core
 [jEdit]: http://www.jedit.org
-[properties]: http://editorconfig.org/#supported-properties
+[properties]: https://editorconfig.org/#supported-properties
